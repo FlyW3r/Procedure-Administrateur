@@ -33,7 +33,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .noise{position:fixed;inset:0;pointer-events:none;opacity:.02;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:0}
 #loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;position:relative;z-index:1}
 .login-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:min(400px,90vw);text-align:center}
-.login-icon{width:64px;height:64px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:28px}
+.login-icon{width:64px;height:64px;background:rgba(212,176,138,.1);border:1px solid rgba(212,176,138,.3);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:28px}
 .login-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.4rem}
 .login-title span{color:var(--gold)}
 .login-sub{font-size:13px;color:var(--muted);margin-bottom:2rem}
@@ -46,7 +46,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;gap:12px;height:56px;position:sticky;top:0;z-index:50}
 .topbar-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
 .brand-dot{width:8px;height:8px;border-radius:50%;background:var(--gold)}
-.role-badge{font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.25);color:var(--gold);font-family:'Syne',sans-serif;font-weight:700}
+.role-badge{font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(212,176,138.12);border:1px solid rgba(212,176,138.25);color:var(--gold);font-family:'Syne',sans-serif;font-weight:700}
 .topbar-tabs{display:flex;gap:4px;margin-left:auto}
 .tab-btn{padding:6px 14px;border-radius:8px;font-size:13px;cursor:pointer;background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .15s}
 .tab-btn:hover{color:var(--text);background:var(--surface2)}
@@ -59,7 +59,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-family:'Syne',sans-serif;margin-bottom:4px}
 .stat-val{font-size:24px;font-weight:500;font-family:'Syne',sans-serif}
 .badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;font-family:'Syne',sans-serif}
-.badge-pending{background:rgba(245,200,66,.12);color:var(--gold);border:1px solid rgba(245,200,66,.2)}
+.badge-pending{background:rgba(212,176,138,.12);color:var(--gold);border:1px solid rgba(245,200,66,.2)}
 .badge-pass{background:rgba(80,200,120,.15);color:var(--success)}
 .badge-fail{background:rgba(240,96,96,.12);color:var(--danger)}
 .badge-late{background:rgba(240,96,96,.1);color:var(--danger);font-size:10px}
@@ -93,7 +93,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .score-label2{font-size:12px;color:var(--muted)}
 .pts-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:'Syne',sans-serif;font-weight:600}
 .pts-btn:hover{border-color:var(--border2);color:var(--text)}
-.pts-btn.active{background:rgba(123,110,246,.2);border-color:rgba(123,110,246,.4);color:var(--accent)}
+.pts-btn.active{background:rgba(166,124,82,.2);border-color:rgba(166,124,82,.4);color:var(--accent)}
 .save-btn{background:var(--accent);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;padding:11px 28px;border:none;border-radius:10px;cursor:pointer;transition:background .2s;margin-top:.5rem}
 .save-btn:hover{background:var(--accent2)}
 .ed-q-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1rem}
