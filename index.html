@@ -162,19 +162,7 @@ window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
 );
-
-window.storage = {
-
-  async getConfig() {
-    const { data } = await supabase
-      .from('exam_config')
-      .select('*')
-      .limit(1)
-      .single();
-
-    return data;
-  },
-
+  
   async getQuestions() {
     const { data } = await supabase
       .from('questions')
@@ -191,7 +179,7 @@ window.storage = {
 
 };
 
-window.dispatchEvent(new Event('firebaseReady'));
+window.dispatchEvent(new Event('SupabaseReady'));
 </script>
 </head>
 <body>
@@ -297,7 +285,7 @@ window.dispatchEvent(new Event('firebaseReady'));
 
 <script>
 let ADMIN_PASSWORD = '428ontop';
-let FORMATEUR_PASSWORD = '064ontop';
+let FORMATEUR_PASSWORD = '408ontop';
 let submissions = [], questions = [], currentSub = null, currentScores = {};
 let config = { title: 'Procédure 2', duration: 25, pass: 17, signature: '', rules: '' };
 
@@ -316,38 +304,85 @@ document.getElementById('pwdInput').addEventListener('keydown', e => { if(e.key=
 async function loadAll() { await Promise.all([loadData(), loadQuestions(), loadConfig(), loadPasswords()]); }
 
 async function loadData() {
-  // Lire les nouvelles clés individuelles (proc2_sub_*) + anciennes (proc2_submissions)
   try {
+    const { data, error } =
+      await supabase
+      .from('submissions')
+      .select('*');
+    if(error) throw error;
+    submissions = data || [];
+    submissions.sort((a,b)=>
+      (b.id||'').localeCompare(a.id||'')
+    );
+  }
+  catch(err){
+    console.error(err);
     submissions = [];
-    try { const r = await window.storage.get('proc2_submissions'); if(r) submissions = JSON.parse(r.value); } catch(e){}
-    try {
-      const keys = await window.storage.list('proc2_sub_');
-      if(keys && keys.keys) {
-        for(const key of keys.keys) {
-          try {
-            let raw = (keys.values && keys.values[key] !== undefined) ? keys.values[key] : (await window.storage.get(key))?.value;
-            if(raw) { const s = JSON.parse(raw); if(!submissions.find(x=>x.id==s.id)) submissions.push(s); }
-          } catch(e){}
-        }
-      }
-    } catch(e){}
-    submissions.sort((a,b) => (b.id||0) > (a.id||0) ? 1 : -1);
-  } catch(e){ submissions=[]; }
-  renderStats(); renderList();
+  }
+  renderStats();
+  renderList();
 }
-async function loadQuestions() {
-  try { const r = await window.storage.get('proc2_questions'); questions = r ? JSON.parse(r.value) : []; } catch(e){ questions=[]; }
+async function loadQuestions(){
+  try{
+    const { data,error } =
+      await supabase
+      .from('questions')
+      .select('*');
+    if(error) throw error;
+    questions = data || [];
+  }
+  catch(err){
+    console.error(err);
+    questions = [];
+  }
   renderEditor();
 }
-async function loadConfig() {
-  try { const r = await window.storage.get('proc2_config'); if(r) Object.assign(config, JSON.parse(r.value)); } catch(e){}
-  fillConfigForm(); renderInfoRow();
+async function loadConfig(){
+  try{
+    const { data,error } =
+      await supabase
+      .from('exam_config')
+      .select('*')
+      .single();
+    if(error) throw error;
+    if(data){
+      config.title =
+        data.title || config.title;
+      config.duration =
+        data.duration || config.duration;
+      config.pass =
+        data.pass_score || config.pass;
+      config.signature =
+        data.signature || '';
+      config.rules =
+        data.rules || '';
+    }
+  }
+  catch(err){
+    console.error(err);
+  }
+  fillConfigForm();
+  renderInfoRow();
 }
-async function loadPasswords() {
-  try {
-    const r = await window.storage.get('proc2_passwords');
-    if(r){ const p=JSON.parse(r.value); ADMIN_PASSWORD=p.admin||ADMIN_PASSWORD; FORMATEUR_PASSWORD=p.formateur||FORMATEUR_PASSWORD; }
-  } catch(e){}
+async function loadPasswords(){
+  try{
+    const { data,error } =
+      await supabase
+      .from('passwords')
+      .select('*')
+      .eq('id',1)
+     *.single();
+    if(error) throw er*or;
+    if(data){
+      ADMIN_PA*SWORD =
+        data.admin_pwd || *DMIN_PASSWORD;
+      FORMATEUR_PA*SWORD =
+        data.formateur_pwd*|| FORMATEUR_PASSWORD;
+    }
+  }*
+  catch(err){
+    console.error(*rr);
+  }
 }
 
 function fillConfigForm() {
