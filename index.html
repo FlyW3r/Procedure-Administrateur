@@ -331,7 +331,7 @@ async function loadData() {
 }
 async function loadQuestions() {
   try { const r = await window.storage.get('proc2_questions'); questions = r ? JSON.parse(r.value) : []; } catch(e){ questions=[]; }
-  renderEditor();
+  //renderEditor();
 }
 async function loadConfig() {
   try { const r = await window.storage.get('proc2_config'); if(r) Object.assign(config, JSON.parse(r.value)); } catch(e){}
