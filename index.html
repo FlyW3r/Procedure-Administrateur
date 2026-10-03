@@ -550,7 +550,29 @@ function renderEditorQ(q,i){
   return `<div class="ed-q-card" id="eq_${i}">
     <div class="ed-q-header"><span class="ed-num">Q${i+1}</span><span class="ed-type-badge">${typeLabel}</span>
       <button class="ed-del" onclick="deleteQuestion(${i})" title="Supprimer">×</button></div>
-    <div class="ed-field"><div class="ed-label">Section</div><input type="text" class="ed-input" value="${(q.section||'').replace(/"/g,'&quot;')}" oninput="questions[${i}].section=this.value"></div>
+    <div class="ed-field">
+  <div class="ed-label">Section</div>
+  <input type="text"
+         class="ed-input"
+         value="${(q.section||'').replace(/"/g,'&quot;')}"
+         oninput="questions[${i}].section=this.value">
+</div>
+
+<div class="ed-field">
+  <div class="ed-label">Catégorie</div>
+  <select class="ed-input"
+          onchange="questions[${i}].questionType=this.value">
+    <option value="connaissance"
+      ${(q.questionType||'connaissance')==='connaissance'?'selected':''}>
+      Question Connaissance
+    </option>
+
+    <option value="mise_en_situation"
+      ${q.questionType==='mise_en_situation'?'selected':''}>
+      Mise en situation
+    </option>
+  </select>
+</div>
     <div class="ed-field">
   <div class="ed-label">Catégorie</div>
 
