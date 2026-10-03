@@ -551,6 +551,25 @@ function renderEditorQ(q,i){
     <div class="ed-q-header"><span class="ed-num">Q${i+1}</span><span class="ed-type-badge">${typeLabel}</span>
       <button class="ed-del" onclick="deleteQuestion(${i})" title="Supprimer">×</button></div>
     <div class="ed-field"><div class="ed-label">Section</div><input type="text" class="ed-input" value="${(q.section||'').replace(/"/g,'&quot;')}" oninput="questions[${i}].section=this.value"></div>
+    <div class="ed-field">
+  <div class="ed-label">Catégorie</div>
+
+  <select
+    class="ed-input"
+    onchange="questions[${i}].questionType=this.value">
+
+    <option value="connaissance"
+      ${(q.questionType||'connaissance')==='connaissance'?'selected':''}>
+      Question Connaissance
+    </option>
+
+    <option value="mise_en_situation"
+      ${q.questionType==='mise_en_situation'?'selected':''}>
+      Mise en situation
+    </option>
+
+  </select>
+</div>
     <div class="ed-field"><div class="ed-label">Intitulé de la question</div><textarea class="ed-input" style="min-height:70px;resize:vertical" oninput="questions[${i}].text=this.value">${q.text||''}</textarea></div>
     <div class="ed-field"><div class="ed-label">Image (optionnel)</div>
       ${q.image
@@ -561,6 +580,8 @@ function renderEditorQ(q,i){
     <div class="ed-field"><div class="ed-label">Barème (points)</div><input type="number" class="ed-input" style="width:80px" min="1" max="20" value="${q.points}" oninput="questions[${i}].points=parseInt(this.value)||1"></div>
     ${q.type==='open'?`<div class="ed-field"><div class="ed-label" style="color:var(--success)">✓ Correction attendue <span style="color:var(--muted);font-weight:400">(visible uniquement par les formateurs)</span></div><textarea class="ed-input" style="min-height:80px;resize:vertical;border-color:rgba(80,200,120,.25)" placeholder="Décris la réponse attendue, les éléments clés à retrouver, le barème de sous-points…" oninput="questions[${i}].correction=this.value">${q.correction||''}</textarea></div>`:''}
     ${optHtml}</div>`;
+
+  
 }
 function updateCorrect(qi){
   questions[qi].correct=[...document.querySelectorAll(`input[name="correct_${qi}"]`)].filter(i=>i.checked).map(i=>parseInt(i.value));
@@ -568,11 +589,14 @@ function updateCorrect(qi){
 function addOption(qi){ if(!questions[qi].options)questions[qi].options=[]; questions[qi].options.push('Nouvelle option'); renderEditor(); }
 function removeOption(qi,oi){ questions[qi].options.splice(oi,1); questions[qi].correct=(questions[qi].correct||[]).filter(c=>c!==oi).map(c=>c>oi?c-1:c); renderEditor(); }
 function addQuestion(type){
-  const q={id:'q'+Date.now(),section:'Question Théorique',text:'',type,points:1};
-  if(type!=='open'){q.options=['Option A','Option B'];q.correct=[0];}
-  questions.push(q); renderEditor();
-  setTimeout(()=>document.getElementById(`eq_${questions.length-1}`)?.scrollIntoView({behavior:'smooth'}),100);
-}
+const q={
+  id:'q'+Date.now(),
+  section:'Question Théorique',
+  text:'',
+  type,
+  points:1,
+  questionType:'connaissance'
+};
 function deleteQuestion(i){ if(!confirm('Supprimer cette question ?'))return; questions.splice(i,1); renderEditor(); }
 function uploadImage(i, input) {
   const file = input.files[0];
